@@ -20,11 +20,13 @@
 			        NSLog(@"userId=%@", result.ID);
 			        NSLog(@"nickName=%@", [result propertyForKey:@"nickname"]);
                     NSLog(@"profileImage=%@", [result propertyForKey:@"profile_image"]);
+                    NSLog(@"accessToken=%@", [KOSession sharedSession].accessToken);
 			        
 			        NSDictionary *userSession = @{
 										  @"id": result.ID,
 										  @"nickname": [result propertyForKey:@"nickname"],
-										  @"profile_image": [result propertyForKey:@"profile_image"]};
+										  @"profile_image": [result propertyForKey:@"profile_image"],
+										  @"access_token": [KOSession sharedSession].accessToken};
 					pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
 			    } else {
 			        // failed
