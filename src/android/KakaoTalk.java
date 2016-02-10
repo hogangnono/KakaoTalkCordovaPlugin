@@ -130,7 +130,7 @@ public class KakaoTalk extends CordovaPlugin {
 			response.put("id", userProfile.getId());
 			response.put("nickname", userProfile.getNickname());
             response.put("profile_image", userProfile.getProfileImagePath());
-			response.put("access_token", Session.getAccessToken());
+			response.put("access_token", Session.getCurrentSession().getAccessToken());
 		} catch (JSONException e) {
 			Log.v(LOG_TAG, "kakao : handleResult error - " + e.toString());
 		}
