@@ -11,5 +11,7 @@
 @interface KakaoTalk : CDVPlugin
 
 - (void) login:(CDVInvokedUrlCommand*)command;
+- (void) logout:(CDVInvokedUrlCommand*)command;
+- (void) loginCallback:(CDVInvokedUrlCommand*)command;
 
 @end

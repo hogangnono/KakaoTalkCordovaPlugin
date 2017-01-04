@@ -82,3 +82,27 @@ Kakaotalk.logout(
 	}
 );
 ```
+
+##### loginCallback
+
+OpenURL method can only triggered once below iOS 10. so you have to workaround this situation with `loginCallback` method. It'll do same with the codes you defined on appDelegate.
+
+You should have ready to use custom URL Scheme. (You can check out it `cordova-plugin-customurlscheme`)
+
+```
+window.handleOpenURL = function (url) {
+  if (url.indexOf('kakao') === 0) {
+    Kakaotalk.loginCallback(url);
+  }
+}
+```
+
+If you use other platform except iOS, you can use `device.platform` value.
+
+```
+window.handleOpenURL = function (url) {
+  if (url.indexOf('kakao') === 0 && typeof device !== 'undefined' && device.platform.toLowerCase() === 'ios') {
+    Kakaotalk.loginCallback(url);
+  }
+}
+```

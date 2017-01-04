@@ -61,4 +61,19 @@
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+
+- (void)loginCallback:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@">>>>>>>>>>>>>>>>");
+    NSString *urlString = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    if ([KOSession isKakaoAccountLoginCallback:url]) {
+        [KOSession handleOpenURL:url];
+    }
+
+    CDVPluginResult* pluginResult = pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 @end
