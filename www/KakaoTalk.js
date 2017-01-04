@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-kakaotalk.KakaoTalk", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 var KakaoTalk = {
@@ -14,4 +13,3 @@ var KakaoTalk = {
 };
 
 module.exports = KakaoTalk;
-});
