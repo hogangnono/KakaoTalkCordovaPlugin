@@ -22,11 +22,16 @@
                     NSLog(@"profileImage=%@", [result propertyForKey:@"profile_image"]);
                     NSLog(@"accessToken=%@", [KOSession sharedSession].accessToken);
 			        
-			        NSDictionary *userSession = @{
-										  @"id": result.ID,
-										  @"nickname": [result propertyForKey:@"nickname"],
-										  @"profile_image": [result propertyForKey:@"profile_image"],
-										  @"access_token": [KOSession sharedSession].accessToken};
+                    NSMutableDictionary *userSession = [@{} mutableCopy];
+                    userSession[@"id"] = result.ID;
+                    userSession[@"nickname"] = [result propertyForKey:@"nickname"];
+                    userSession[@"access_token"] = [KOSession sharedSession].accessToken;
+                    
+                    // Profile Image 가 null 로 넘어오는 경우가 있어서, null check.
+                    NSString *profileImage = [result propertyForKey:@"profile_image"];
+                    if(profileImage && profileImage.length > 0) {
+                        userSession[@"profileImage"] = profileImage;
+                    }
 					pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
 			    } else {
 			        // failed
