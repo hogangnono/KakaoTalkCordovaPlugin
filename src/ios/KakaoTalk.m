@@ -18,6 +18,7 @@
 			    if (result) {
 			        // success
 			        NSLog(@"userId=%@", result.ID);
+                    NSLog(@"email=%@", [result propertyForKey:@"email"]);
 			        NSLog(@"nickName=%@", [result propertyForKey:@"nickname"]);
                     NSLog(@"profileImage=%@", [result propertyForKey:@"profile_image"]);
                     NSLog(@"accessToken=%@", [KOSession sharedSession].accessToken);
@@ -32,6 +33,12 @@
                     if(profileImage && profileImage.length > 0) {
                         userSession[@"profileImage"] = profileImage;
                     }
+                    
+                    NSString *email = [result propertyForKey:@"email"];
+                    if(email && email.length > 0) {
+                        userSession[@"email"] = email;
+                    }
+                    
 					pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
 			    } else {
 			        // failed
