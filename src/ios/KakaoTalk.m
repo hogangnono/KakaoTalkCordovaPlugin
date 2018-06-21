@@ -18,7 +18,7 @@
 			    if (result) {
 			        // success
 			        NSLog(@"userId=%@", result.ID);
-                    NSLog(@"email=%@", [result propertyForKey:@"email"]);
+                    NSLog(@"email=%@", result.email);
 			        NSLog(@"nickName=%@", [result propertyForKey:@"nickname"]);
                     NSLog(@"profileImage=%@", [result propertyForKey:@"profile_image"]);
                     NSLog(@"accessToken=%@", [KOSession sharedSession].accessToken);
@@ -34,7 +34,7 @@
                         userSession[@"profileImage"] = profileImage;
                     }
                     
-                    NSString *email = [result propertyForKey:@"email"];
+                    NSString *email = result.email;
                     if(email && email.length > 0) {
                         userSession[@"email"] = email;
                     }
