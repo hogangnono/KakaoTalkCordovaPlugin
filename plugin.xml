@@ -67,6 +67,7 @@
 				<key>Kits</key>
 				<array></array>
 			</dict>
-		</config-file>
+	</config-file>
+	<framework src="src/ios/KakaoOpenSDK.framework" embed="true" custom-"true" />
     </platform>
 </plugin>
