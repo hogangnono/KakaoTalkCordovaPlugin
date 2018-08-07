@@ -1,7 +1,7 @@
 {
   "id": "cordova-plugin-kakaotalk",
   "name": "cordova-plugin-kakaotalk",
-  "version": "1.0.2",
+  "version": "v1.0.3",
   "description": "Cordova KakaoTalk Plugin",
   "cordova": {
     "id": "cordova-plugin-kakaotalk",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hogangnono/KakaoTalkCordovaPlugin"
+    "url": "git+https://github.com/hogangnono/KakaoTalkCordovaPlugin.git"
   },
   "keywords": [
     "cordova",
