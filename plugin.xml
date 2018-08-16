@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
    id="cordova-plugin-kakaotalk"
    name="cordova-plugin-kakaotalk"
-   version="1.0.3">
+   version="1.0.4">
 
     <name>KakaoTalk</name>
     <description>KakaoTalk Cordova Plugin</description>
@@ -61,13 +61,17 @@
         <source-file src="src/ios/KakaoTalk.m" />
         <header-file src="src/ios/KakaoTalk.h" />
         <config-file target="*-Info.plist">
-			<dict>
-				<key>KAKAO_APP_KEY</key>
-				<string>$KAKAO_APP_KEY</string>
-				<key>Kits</key>
-				<array></array>
-			</dict>
+            <dict>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                  <string>kakao$KAKAO_APP_KEY</string>
+                </array>
+            </dict>
+            <key>KAKAO_APP_KEY</key>
+            <string>$KAKAO_APP_KEY</string>
 	</config-file>
-	<framework src="src/ios/KakaoOpenSDK.framework" embed="true" custom="true" />
+	<framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
 </plugin>
