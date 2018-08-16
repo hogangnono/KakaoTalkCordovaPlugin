@@ -73,7 +73,6 @@
         <config-file target="*-Info.plist" parent="KAKAO_APP_KEY">
             <string>$KAKAO_APP_KEY</string>
         </config-file>
-	</config-file>
 	<framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
 </plugin>
