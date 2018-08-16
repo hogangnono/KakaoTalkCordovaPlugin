@@ -60,18 +60,21 @@
 
         <source-file src="src/ios/KakaoTalk.m" />
         <header-file src="src/ios/KakaoTalk.h" />
-        <config-file target="*-Info.plist">
-            <dict>
-                <key>CFBundleTypeRole</key>
-                <string>Editor</string>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                  <string>kakao$KAKAO_APP_KEY</string>
-                </array>
-            </dict>
-        </config-file>
         <config-file target="*-Info.plist" parent="KAKAO_APP_KEY">
             <string>$KAKAO_APP_KEY</string>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>kakao$KAKAO_APP_KEY</string>
+                    </array>
+                </dict>
+            </array>
         </config-file>
 	<framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
