@@ -69,8 +69,10 @@
                   <string>kakao$KAKAO_APP_KEY</string>
                 </array>
             </dict>
-            <key>KAKAO_APP_KEY</key>
+        </config-file>
+        <config-file target="*-Info.plist" parent="KAKAO_APP_KEY">
             <string>$KAKAO_APP_KEY</string>
+        </config-file>
 	</config-file>
 	<framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
