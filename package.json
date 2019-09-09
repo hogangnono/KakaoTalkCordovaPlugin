@@ -1,7 +1,7 @@
 {
   "id": "cordova-plugin-kakaotalk",
   "name": "cordova-plugin-kakaotalk",
-  "version": "1.0.5",
+  "version": "1.0.6-hogangnono",
   "description": "Cordova KakaoTalk Plugin",
   "cordova": {
     "id": "cordova-plugin-kakaotalk",
@@ -12,8 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hogangnono/KakaoTalkCordovaPlugin.git"
+    "url": "git@github.com:hogangnono/KakaoTalkCordovaPlugin.git"
   },
+  "bugs": {
+    "url": "https://github.com/hogangnono/KakaoTalkCordovaPlugin/issues"
+  },
+  "homepage": "https://github.com/hogangnono/KakaoTalkCordovaPlugin",
   "keywords": [
     "cordova",
     "kakao",
@@ -22,6 +26,9 @@
     "cordova-android",
     "cordova-ios"
   ],
-  "author": "Lihak Kang",
-  "license": "MIT"
+  "author": "hogangnono",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.housefeed.com"
+  }
 }
