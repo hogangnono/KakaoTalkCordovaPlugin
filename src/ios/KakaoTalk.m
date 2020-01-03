@@ -75,7 +75,7 @@
 - (void)loginCallback:(CDVInvokedUrlCommand*)command
 {
     NSString *urlString = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
-    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
     
     if ([KOSession isKakaoAccountLoginCallback:url]) {
         [KOSession handleOpenURL:url];
