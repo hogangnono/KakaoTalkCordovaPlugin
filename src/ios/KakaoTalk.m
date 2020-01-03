@@ -7,46 +7,44 @@
 - (void) login:(CDVInvokedUrlCommand*) command
 {
     [[KOSession sharedSession] close];
-	
 	[[KOSession sharedSession] openWithCompletionHandler:^(NSError *error) {
-		
 	    if ([[KOSession sharedSession] isOpen]) {
 	        // login success
 	        NSLog(@"login succeeded.");
-	        [KOSessionTask meTaskWithCompletionHandler:^(KOUser* result, NSError *error) {
+            [KOSessionTask userMeTaskWithCompletion:^(NSError *error, KOUserMe *me) {
                 CDVPluginResult* pluginResult = nil;
-			    if (result) {
-			        // success
-			        NSLog(@"userId=%@", result.ID);
-                    NSLog(@"email=%@", result.email);
-			        NSLog(@"nickName=%@", [result propertyForKey:@"nickname"]);
-                    NSLog(@"profileImage=%@", [result propertyForKey:@"profile_image"]);
-                    NSLog(@"accessToken=%@", [KOSession sharedSession].accessToken);
-			        
+                if (me) {
+                    // success
+                    NSLog(@"userId=%@", me.ID);
+                    NSLog(@"email=%@", me.account.email);
+                    NSLog(@"nickName=%@", me.nickname);
+                    NSLog(@"profileImage=%@", me.profileImageURL);
+                    NSLog(@"accessToken=%@", [KOSession sharedSession].token.accessToken);
+                    
                     NSMutableDictionary *userSession = [@{} mutableCopy];
-                    userSession[@"id"] = result.ID;
-                    userSession[@"nickname"] = [result propertyForKey:@"nickname"];
-                    userSession[@"access_token"] = [KOSession sharedSession].accessToken;
+                    userSession[@"id"] = me.ID;
+                    userSession[@"nickname"] = me.nickname;
+                    userSession[@"access_token"] = [KOSession sharedSession].token.accessToken;
                     
                     // Profile Image 가 null 로 넘어오는 경우가 있어서, null check.
-                    NSString *profileImage = [result propertyForKey:@"profile_image"];
+                    NSString *profileImage = [me.profileImageURL absoluteString];
                     if(profileImage && profileImage.length > 0) {
                         userSession[@"profileImage"] = profileImage;
                     }
                     
-                    NSString *email = result.email;
+                    NSString *email = me.account.email;
                     if(email && email.length > 0) {
                         userSession[@"email"] = email;
                     }
                     
-					pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
-			    } else {
-			        // failed
-			        NSLog(@"login session failed.");
-			        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
-			    }
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
+                } else {
+                    // failed
+                    NSLog(@"login session failed.");
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+                }
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-			}];
+            }];
 	    } else {
 	        // failed
 	        NSLog(@"login failed.");
@@ -76,9 +74,8 @@
 
 - (void)loginCallback:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@">>>>>>>>>>>>>>>>");
     NSString *urlString = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
-    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
     
     if ([KOSession isKakaoAccountLoginCallback:url]) {
         [KOSession handleOpenURL:url];
