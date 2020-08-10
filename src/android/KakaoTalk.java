@@ -26,6 +26,9 @@ import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 
@@ -119,17 +122,17 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Result
-     * @param userProfile
+     * @param result
      */
-    private JSONObject handleResult(UserProfile userProfile)
+    private JSONObject handleResult(MeV2Response result)
     {
         Log.v(LOG_TAG, "kakao : handleResult");
         JSONObject response = new JSONObject();
         try {
-            response.put("id", userProfile.getId());
-            response.put("nickname", userProfile.getNickname());
-            response.put("profile_image", userProfile.getProfileImagePath());
-            response.put("access_token", Session.getCurrentSession().getAccessToken());
+            response.put("id", result.getId());
+            response.put("nickname", result.getNickname());
+            response.put("profile_image", result.getProfileImagePath());
+            response.put("access_token", Session.getCurrentSession().getTokenInfo().getAccessToken());
         } catch (JSONException e) {
             Log.v(LOG_TAG, "kakao : handleResult error - " + e.toString());
         }
@@ -152,12 +155,7 @@ public class KakaoTalk extends CordovaPlugin {
         @Override
         public void onSessionOpened() {
             Log.v(LOG_TAG, "kakao : SessionCallback.onSessionOpened");
-            UserManagement.getInstance().requestMe(new MeResponseCallback() {
-                @Override
-                public void onFailure(ErrorResult errorResult) {
-                    callbackContext.error("kakao : SessionCallback.onSessionOpened.requestMe.onFailure - " + errorResult);
-                }
-
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
                     Log.v(LOG_TAG, "kakao : SessionCallback.onSessionOpened.requestMe.onSessionClosed - " + errorResult);
@@ -165,13 +163,8 @@ public class KakaoTalk extends CordovaPlugin {
                 }
 
                 @Override
-                public void onSuccess(UserProfile userProfile) {
-                    callbackContext.success(handleResult(userProfile));
-                }
-
-                @Override
-                public void onNotSignedUp() {
-                    callbackContext.error("this user is not signed up");
+                public void onSuccess(MeV2Response result) {
+                    callbackContext.success(handleResult(result));
                 }
             });
         }
