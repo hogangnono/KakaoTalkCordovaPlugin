@@ -36,6 +36,7 @@ public class KakaoTalk extends CordovaPlugin {
 
     private static final String LOG_TAG = "KakaoTalk";
     private static volatile Activity currentActivity;
+    private static boolean initialized = false;
     private SessionCallback callback;
 
     /**
@@ -48,7 +49,10 @@ public class KakaoTalk extends CordovaPlugin {
         Log.v(LOG_TAG, "kakao : initialize");
         super.initialize(cordova, webView);
         currentActivity = this.cordova.getActivity();
-        KakaoSDK.init(new KakaoSDKAdapter());
+        if (!initialized) {
+            KakaoSDK.init(new KakaoSDKAdapter());
+            initialized = true;
+        }
     }
 
     /**
