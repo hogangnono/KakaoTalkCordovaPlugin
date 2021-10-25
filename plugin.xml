@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
    id="cordova-plugin-kakaotalk"
    name="cordova-plugin-kakaotalk"
-   version="1.0.10-hogangnono">
+   version="1.0.11-hogangnono">
 
     <name>KakaoTalk</name>
     <description>KakaoTalk Cordova Plugin</description>
@@ -33,6 +33,9 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
+            <queries>
+                <package android:name="com.kakao.talk" />
+            </queries>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="application">
