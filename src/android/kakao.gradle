@@ -4,7 +4,7 @@ repositories {
 }
 
 dependencies {
-	compile('com.kakao.sdk:kakaotalk:1.17.0@aar') {
-		transitive = true
-	}
+	implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.7'
+	implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.30.7'
+	implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.7'
 }

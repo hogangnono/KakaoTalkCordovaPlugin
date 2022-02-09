@@ -85,4 +85,14 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)isAvailable:(CDVInvokedUrlCommand*)command
+{
+    NSString *kakaotalk = [NSString stringWithFormat:@"%@",@"kakaolink://"];
+    BOOL isInstalledKakaoTalk = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:kakaotalk]];
+    NSString *result = [NSString stringWithFormat:@"%s", (isInstalledKakaoTalk == TRUE ? "success" : "fail")];
+    NSLog(@"isInstalledKakaoTalk = %@", result);
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 @end
