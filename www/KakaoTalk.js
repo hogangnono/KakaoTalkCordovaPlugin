@@ -9,6 +9,15 @@ var KakaoTalk = {
     },
     loginCallback: function (url, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'KakaoTalk', 'loginCallback', [ url ]);
+    },
+    isAvailable: function () {
+        return new Promise(function(resolve) {
+            exec(function(result) {
+                resolve(result === "success" ? true : false)
+            }, function() {
+                resolve(false)
+            }, 'KakaoTalk', 'isAvailable', []);
+        });
     }
 };
 

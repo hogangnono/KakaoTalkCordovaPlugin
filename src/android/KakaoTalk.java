@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 
+import com.kakao.kakaolink.v2.KakaoLinkService;
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
@@ -76,6 +77,10 @@ public class KakaoTalk extends CordovaPlugin {
             this.logout(callbackContext);
             return true;
         }
+        if (action.equals("isAvailable")) {
+            this.isAvailable(callbackContext);
+            return true;
+        }
         return false;
     }
 
@@ -105,6 +110,25 @@ public class KakaoTalk extends CordovaPlugin {
                         callbackContext.success();
                     }
                 });
+            }
+        });
+    }
+
+    /**
+     * is Available
+     * @param callbackContext
+     */
+    private void isAvailable(final CallbackContext callbackContext)
+    {
+        currentActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                boolean available = KakaoLinkService.getInstance().isKakaoLinkV2Available(currentActivity.getApplicationContext());
+                Log.d(LOG_TAG, "kakaoTalk : isAvailable = " + available);
+                if (available) {
+                    callbackContext.success("success");
+                } else {
+                    callbackContext.success("fail");
+                }
             }
         });
     }
