@@ -43,9 +43,9 @@ How to use the plugin
 
 ### Usage
 
-This plugin adds an object to the window. Right now, you can only login and logout.
+This plugin adds an object to the window. Right now, you can login, logout and check app installed.
 
-##### Login
+#### Login
 
 Login using the `.login` method:
 ```
@@ -70,7 +70,7 @@ The login reponse object is defined as:
 }
 ```
 
-##### Logout
+#### Logout
 
 Logout using the `.logout` method:
 ```
@@ -83,7 +83,7 @@ Kakaotalk.logout(
 );
 ```
 
-##### loginCallback
+#### loginCallback
 
 OpenURL method can only triggered once below iOS 10. so you have to workaround this situation with `loginCallback` method. It'll do same with the codes you defined on appDelegate.
 
@@ -106,3 +106,12 @@ window.handleOpenURL = function (url) {
   }
 }
 ```
+
+#### isAvailable
+
+isAvailable using the `.isAvailable` method:
+```
+const result = await Kakaotalk.isAvailable()
+```
+
+The isAvailable response type is boolean.
