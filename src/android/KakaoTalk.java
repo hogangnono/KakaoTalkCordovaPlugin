@@ -176,7 +176,7 @@ public class KakaoTalk extends CordovaPlugin {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(com.kakao.usermgmt.R.layout.layout_login_dialog);
         if (dialog.getWindow() != null) {
-            dialog.getWindow().setGravity(Gravity.CENTER);
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
         }
 
         ListView listView = (ListView) dialog.findViewById(com.kakao.usermgmt.R.id.login_list_view);
