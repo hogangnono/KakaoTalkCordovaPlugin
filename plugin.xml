@@ -26,7 +26,8 @@
             <access origin="https://*.kakaocdn.net" />
         </config-file>
 
-        <source-file src="src/android/kakao_strings.xml" target-dir="res/values" />
+        <source-file src="src/android/values/kakao_values.xml" target-dir="res/values" />
+        <source-file src="src/android/values/kakao_strings.xml" target-dir="res/values" />
         <config-file target="res/values/kakao_strings.xml" parent="/*">
             <string name="kakao_app_key">$KAKAO_APP_KEY</string>
         </config-file>
