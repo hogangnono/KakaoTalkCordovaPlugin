@@ -1,7 +1,7 @@
 {
   "id": "cordova-plugin-kakaotalk",
   "name": "cordova-plugin-kakaotalk",
-  "version": "1.0.17-hogangnono-wip",
+  "version": "1.0.17-hogangnono-v2",
   "description": "Cordova KakaoTalk Plugin",
   "cordova": {
     "id": "cordova-plugin-kakaotalk",
