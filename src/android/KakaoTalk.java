@@ -1,4 +1,4 @@
-package com.lihak.plugin.kakao;
+package com.hogangnono.plugin.kakao;
 
 import android.app.Activity;
 import android.content.Context;
