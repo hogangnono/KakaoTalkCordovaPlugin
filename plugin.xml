@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-kakaotalk" name="cordova-plugin-kakaotalk" version="1.0.18-hogangnono">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-kakaotalk" name="cordova-plugin-kakaotalk" version="1.0.19-hogangnono">
 
     <name>KakaoTalk</name>
     <description>KakaoTalk Cordova Plugin</description>
