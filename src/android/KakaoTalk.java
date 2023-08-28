@@ -63,7 +63,8 @@ enum AuthType {
     KAKAO_LOGIN_ALL(4),
 
     /**
-     * Kakaotalkㅇㅡ로 login을 하고 싶을 경우 지정. Webviews are not used even if talk is not installed.
+     * Kakaotalk으로 login을 하고 싶을 경우 지정.
+     * Webviews are not used even if talk is notinstalled.
      */
     KAKAO_TALK_ONLY(5);
 
@@ -101,11 +102,11 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Initialize cordova plugin kakaotalk
+     * 
      * @param cordova
      * @param webView
      */
-    public void initialize(CordovaInterface cordova, CordovaWebView webView)
-    {
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         Log.v(LOG_TAG, "kakao : initialize");
         super.initialize(cordova, webView);
         currentActivity = this.cordova.getActivity();
@@ -118,12 +119,13 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Execute plugin
+     * 
      * @param action
      * @param args
      * @param callbackContext
      */
-    public boolean execute(final String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
-    {
+    public boolean execute(final String action, JSONArray args, final CallbackContext callbackContext)
+            throws JSONException {
         Log.v(LOG_TAG, "kakao : execute " + action);
         cordova.setActivityResultCallback(this);
         callback = callbackContext;
@@ -145,8 +147,7 @@ public class KakaoTalk extends CordovaPlugin {
     /**
      * Log in
      */
-    private void login()
-    {
+    private void login() {
         currentActivity.runOnUiThread(new Runnable() {
             public void run() {
                 final List<AuthType> authTypes = getAuthTypes();
@@ -181,8 +182,7 @@ public class KakaoTalk extends CordovaPlugin {
     /**
      * Log out
      */
-    private void logout()
-    {
+    private void logout() {
         currentActivity.runOnUiThread(new Runnable() {
             public void run() {
                 UserApiClient.getInstance().logout((error) -> {
@@ -201,11 +201,11 @@ public class KakaoTalk extends CordovaPlugin {
     /**
      * is Available (exist kakaotalk app)
      */
-    private void isAvailable()
-    {
+    private void isAvailable() {
         currentActivity.runOnUiThread(new Runnable() {
             public void run() {
-                boolean available = UserApiClient.getInstance().isKakaoTalkLoginAvailable(currentActivity.getApplicationContext());
+                boolean available = UserApiClient.getInstance()
+                        .isKakaoTalkLoginAvailable(currentActivity.getApplicationContext());
                 Log.d(LOG_TAG, "kakaoTalk : isAvailable = " + available);
                 if (available) {
                     callback.success("success");
@@ -218,11 +218,11 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Result
+     * 
      * @param user
      * @param token
      */
-    private JSONObject handleResult(User user, OAuthToken token)
-    {
+    private JSONObject handleResult(User user, OAuthToken token) {
         Log.v(LOG_TAG, "kakao : handleResult");
         JSONObject response = new JSONObject();
         try {
@@ -240,8 +240,7 @@ public class KakaoTalk extends CordovaPlugin {
     /**
      * Return current activity
      */
-    public static Activity getCurrentActivity()
-    {
+    public static Activity getCurrentActivity() {
         return currentActivity;
     }
 
@@ -249,6 +248,7 @@ public class KakaoTalk extends CordovaPlugin {
         final int textId;
         public final int icon;
         final AuthType authType;
+
         Item(final int textId, final Integer icon, final AuthType authType) {
             this.textId = textId;
             this.icon = icon;
@@ -268,10 +268,10 @@ public class KakaoTalk extends CordovaPlugin {
 
     private Item[] createAuthItemArray(final List<AuthType> authTypes) {
         final List<Item> itemList = new ArrayList<Item>();
-        if(authTypes.contains(AuthType.KAKAO_TALK)) {
+        if (authTypes.contains(AuthType.KAKAO_TALK)) {
             itemList.add(new Item(R.string.com_kakao_kakaotalk_account, R.drawable.talk, AuthType.KAKAO_TALK));
         }
-        if(authTypes.contains(AuthType.KAKAO_ACCOUNT)){
+        if (authTypes.contains(AuthType.KAKAO_ACCOUNT)) {
             itemList.add(new Item(R.string.com_kakao_other_kakaoaccount, R.drawable.account, AuthType.KAKAO_ACCOUNT));
         }
 
@@ -280,12 +280,12 @@ public class KakaoTalk extends CordovaPlugin {
 
     private ListAdapter createLoginAdapter(final Item[] authItems) {
         /*
-            가능한 auth type들을 유저에게 보여주기 위한 준비.
-        */
+         * 가능한 auth type들을 유저에게 보여주기 위한 준비.
+         */
         return new ArrayAdapter<Item>(
                 currentActivity,
                 android.R.layout.select_dialog_item,
-                android.R.id.text1, authItems){
+                android.R.id.text1, authItems) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -295,7 +295,8 @@ public class KakaoTalk extends CordovaPlugin {
                 }
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.login_method_icon);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setImageDrawable(currentActivity.getResources().getDrawable(authItems[position].icon, getContext().getTheme()));
+                    imageView.setImageDrawable(currentActivity.getResources().getDrawable(authItems[position].icon,
+                            getContext().getTheme()));
                 } else {
                     imageView.setImageDrawable(currentActivity.getResources().getDrawable(authItems[position].icon));
                 }
@@ -308,8 +309,9 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * 실제로 유저에게 보여질 dialog 객체를 생성한다.
+     * 
      * @param authItems 가능한 AuthType들의 정보를 담고 있는 Item array
-     * @param adapter Dialog의 list view에 쓰일 adapter
+     * @param adapter   Dialog의 list view에 쓰일 adapter
      * @return 로그인 방법들을 팝업으로 보여줄 dialog
      */
     private Dialog createLoginDialog(final Item[] authItems, final ListAdapter adapter) {
