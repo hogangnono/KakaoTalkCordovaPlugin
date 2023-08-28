@@ -162,8 +162,8 @@ public class KakaoTalk extends CordovaPlugin {
                                     Log.e(LOG_TAG, "사용자 정보 요청 실패", meError);
                                 } else {
                                     Log.i(LOG_TAG, "사용자 정보 요청 성공(id) : " + user.getId());
+                                    callback.success(handleResult(user, token));
                                 }
-                                callback.success(handleResult(user, token));
                                 return null;
                             });
                         }
@@ -339,8 +339,8 @@ public class KakaoTalk extends CordovaPlugin {
                                     Log.e(LOG_TAG, "사용자 정보 요청 실패", meError);
                                 } else {
                                     Log.i(LOG_TAG, "사용자 정보 요청 성공(id) : " + user.getId());
+                                    callback.success(handleResult(user, token));
                                 }
-                                callback.success(handleResult(user, token));
                                 return null;
                             });
                         }
@@ -357,8 +357,8 @@ public class KakaoTalk extends CordovaPlugin {
                                     Log.e(LOG_TAG, "사용자 정보 요청 실패", meError);
                                 } else {
                                     Log.i(LOG_TAG, "사용자 정보 요청 성공(id) : " + user.getId());
+                                    callback.success(handleResult(user, token));
                                 }
-                                callback.success(handleResult(user, token));
                                 return null;
                             });
                         }
