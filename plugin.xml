@@ -67,6 +67,7 @@
 
         <config-file target="config.xml" parent="/*">
             <preference name="deployment-target" value="13.0" />
+            <preference name="SwiftVersion" value="5.0" />
             <feature name="KakaoTalk">
                 <param name="ios-package" value="KakaoTalk" />
             </feature>
