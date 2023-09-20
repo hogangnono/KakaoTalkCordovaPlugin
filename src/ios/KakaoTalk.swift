@@ -35,10 +35,17 @@ class KakaoTalk: CDVPlugin {
         }
     }
 
-  @objc(logout:)
-  func logout(command: CDVInvokedUrlCommand) {
-    print("logout")
-  }
+    @objc(logout:)
+    func logout(command: CDVInvokedUrlCommand) {
+        UserApi.shared.logout { error in
+            guard error == nil else {
+                self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: error!.localizedDescription), callbackId: command.callbackId)
+                return
+            }
+            
+            self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
+        }
+    }
 
   @objc(loginCallback:)
   func loginCallback(command: CDVInvokedUrlCommand) {
