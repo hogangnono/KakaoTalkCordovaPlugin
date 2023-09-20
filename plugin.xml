@@ -57,6 +57,14 @@
     </platform>
 
     <platform name="ios">
+        <podspec>
+            <pods use-frameworks="true">
+                <pod name="KakaoSDKCommon" />
+                <pod name="KakaoSDKAuth" />
+                <pod name="KakaoSDKUser" />
+            </pods>
+        </podspec>
+
         <config-file target="config.xml" parent="/*">
             <feature name="KakaoTalk">
                 <param name="ios-package" value="KakaoTalk" />
