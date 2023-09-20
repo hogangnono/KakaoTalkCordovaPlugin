@@ -68,8 +68,8 @@ class KakaoTalk: CDVPlugin {
         self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
     }
 
-  @objc(isAvailable:)
-  func isAvailable(command: CDVInvokedUrlCommand) {
-    print("isAvailable")
-  }
+    @objc(isAvailable:)
+    func isAvailable(command: CDVInvokedUrlCommand) {
+        self.commandDelegate.send(CDVPluginResult(status: .ok, messageAs: UserApi.isKakaoTalkLoginAvailable() ? "success" : "fail"), callbackId: command.callbackId)
+    }
 }
