@@ -71,8 +71,7 @@
             </feature>
         </config-file>
 
-        <source-file src="src/ios/KakaoTalk.m" />
-        <header-file src="src/ios/KakaoTalk.h" />
+        <source-file src="src/ios/KakaoTalk.swift" />
         <config-file target="*-Info.plist" parent="KAKAO_APP_KEY">
             <string>$KAKAO_APP_KEY</string>
         </config-file>
