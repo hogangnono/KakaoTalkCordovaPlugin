@@ -46,11 +46,27 @@ class KakaoTalk: CDVPlugin {
             self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
         }
     }
-
-  @objc(loginCallback:)
-  func loginCallback(command: CDVInvokedUrlCommand) {
-    print("loginCallback")
-  }
+    
+    @objc(loginCallback:)
+    func loginCallback(command: CDVInvokedUrlCommand) {        
+        guard let urlString = command.arguments[0] as? String,
+              let url = URL(string: urlString) else {
+            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "Invalid url"), callbackId: command.callbackId)
+            return
+        }
+        
+        guard AuthApi.isKakaoTalkLoginUrl(url) else {
+            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "isKakaoTalkLoginUrl fail"), callbackId: command.callbackId)
+            return
+        }
+        
+        guard AuthController.handleOpenUrl(url: url) else {
+            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "handleOpenUrl fail"), callbackId: command.callbackId)
+            return
+        }
+        
+        self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
+    }
 
   @objc(isAvailable:)
   func isAvailable(command: CDVInvokedUrlCommand) {
