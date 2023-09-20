@@ -96,6 +96,5 @@
                 <string>kakaotalk-5.9.7</string>
             </array>
         </config-file>
-        <framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
 </plugin>
