@@ -14,7 +14,22 @@ class KakaoTalk: CDVPlugin {
 
     @objc(login:)
     func login(command: CDVInvokedUrlCommand) {
-        let loginCompletion: (OAuthToken?, Error?) -> Void = { oauthToken, error in
+        let loginCompletion = createLoginCompletion(command: command)
+        
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk(completion: loginCompletion)
+        } else {
+            UserApi.shared.loginWithKakaoAccount(completion: loginCompletion)
+        }
+    }
+
+    @objc(loginWithAccount:)
+    func loginWithAccount(command: CDVInvokedUrlCommand) {
+        UserApi.shared.loginWithKakaoAccount(completion: createLoginCompletion(command: command))
+    }
+
+    private func createLoginCompletion(command: CDVInvokedUrlCommand) -> ((OAuthToken?, Error?) -> Void) {
+        return { oauthToken, error in
             guard error == nil else {
                 self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: error!.localizedDescription), callbackId: command.callbackId)
                 return
@@ -26,12 +41,6 @@ class KakaoTalk: CDVPlugin {
             }
 
             self.commandDelegate.send(CDVPluginResult(status: .ok, messageAs: ["access_token": oauthToken.accessToken]), callbackId: command.callbackId)
-        }
-
-        if(UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk(completion: loginCompletion)
-        } else {
-            UserApi.shared.loginWithKakaoAccount(completion: loginCompletion)
         }
     }
 
