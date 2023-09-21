@@ -41,6 +41,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
+
 enum AuthType {
     /**
      * Kakaotalk으로 login을 하고 싶을 경우 지정. Webviews are used if not installed.
@@ -102,7 +105,7 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Initialize cordova plugin kakaotalk
-     * 
+     *
      * @param cordova
      * @param webView
      */
@@ -119,7 +122,7 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Execute plugin
-     * 
+     *
      * @param action
      * @param args
      * @param callbackContext
@@ -131,6 +134,10 @@ public class KakaoTalk extends CordovaPlugin {
         callback = callbackContext;
         if (action.equals("login")) {
             this.login();
+            return true;
+        }
+        if (action.equals("loginWithAccount")) {
+            this.loginWithAccount();
             return true;
         }
         if (action.equals("logout")) {
@@ -150,34 +157,44 @@ public class KakaoTalk extends CordovaPlugin {
     private void login() {
         currentActivity.runOnUiThread(new Runnable() {
             public void run() {
-                final List<AuthType> authTypes = getAuthTypes();
-                if (authTypes.size() == 1) {
-                    UserApiClient.getInstance().loginWithKakaoAccount(currentActivity, (token, loginError) -> {
-                        if (loginError != null) {
-                            Log.e(LOG_TAG, "로그인 실패", loginError);
-                        } else {
-                            Log.i(LOG_TAG, "로그인 성공(token) : " + token.getAccessToken());
-                            UserApiClient.getInstance().me((user, meError) -> {
-                                if (meError != null) {
-                                    Log.e(LOG_TAG, "사용자 정보 요청 실패", meError);
-                                } else {
-                                    Log.i(LOG_TAG, "사용자 정보 요청 성공(id) : " + user.getId());
-                                    callback.success(handleResult(user, token));
-                                }
-                                return null;
-                            });
-                        }
-                        return null;
-                    });
+                if (UserApiClient.getInstance().isKakaoTalkLoginAvailable(currentActivity.getApplicationContext())) {
+                    UserApiClient.getInstance().loginWithKakaoTalk(currentActivity, loginCallback);
                 } else {
-                    final Item[] authItems = createAuthItemArray(authTypes);
-                    ListAdapter adapter = createLoginAdapter(authItems);
-                    final Dialog dialog = createLoginDialog(authItems, adapter);
-                    dialog.show();
+                    UserApiClient.getInstance().loginWithKakaoAccount(currentActivity, loginCallback);
                 }
             }
         });
     }
+
+
+    /**
+     * Log in with account
+     */
+    private void loginWithAccount() {
+        currentActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                UserApiClient.getInstance().loginWithKakaoAccount(currentActivity, loginCallback);
+            }
+        });
+    }
+
+    Function2<OAuthToken, Throwable, Unit> loginCallback = (token, loginError) -> {
+        if (loginError != null) {
+            Log.e(LOG_TAG, "로그인 실패", loginError);
+        } else {
+            Log.i(LOG_TAG, "로그인 성공(token) : " + token.getAccessToken());
+            UserApiClient.getInstance().me((user, meError) -> {
+                if (meError != null) {
+                    Log.e(LOG_TAG, "사용자 정보 요청 실패", meError);
+                } else {
+                    Log.i(LOG_TAG, "사용자 정보 요청 성공(id) : " + user.getId());
+                    callback.success(handleResult(user, token));
+                }
+                return null;
+            });
+        }
+        return null;
+    };
 
     /**
      * Log out
@@ -218,7 +235,7 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * Result
-     * 
+     *
      * @param user
      * @param token
      */
@@ -309,7 +326,7 @@ public class KakaoTalk extends CordovaPlugin {
 
     /**
      * 실제로 유저에게 보여질 dialog 객체를 생성한다.
-     * 
+     *
      * @param authItems 가능한 AuthType들의 정보를 담고 있는 Item array
      * @param adapter   Dialog의 list view에 쓰일 adapter
      * @return 로그인 방법들을 팝업으로 보여줄 dialog
