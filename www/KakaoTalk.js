@@ -12,6 +12,7 @@ var KakaoTalk = {
     logout: function (successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'KakaoTalk', 'logout', []);
     },
+    /** iOS only */
     loginCallback: function (url, successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'KakaoTalk', 'loginCallback', [ url ]);
     },
