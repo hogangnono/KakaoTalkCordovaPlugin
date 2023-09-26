@@ -56,9 +56,9 @@
     <platform name="ios">
         <podspec>
             <pods use-frameworks="true">
-                <pod name="KakaoSDKCommon" />
-                <pod name="KakaoSDKAuth" />
-                <pod name="KakaoSDKUser" />
+                <pod name="KakaoSDKCommon" spec="2.17.0"/>
+                <pod name="KakaoSDKAuth" spec="2.17.0"/>
+                <pod name="KakaoSDKUser" spec="2.17.0"/>
             </pods>
         </podspec>
 
