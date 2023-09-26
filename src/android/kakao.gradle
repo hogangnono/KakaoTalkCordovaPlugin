@@ -4,7 +4,7 @@ repositories {
 }
 
 dependencies {
-	implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.7'
-	implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.30.7'
-	implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.7'
+  	implementation "com.kakao.sdk:v2-user:2.13.0" // 카카오 로그인
+  	implementation "com.kakao.sdk:v2-talk:2.13.0" // 친구, 메시지(카카오톡)
+  	implementation "com.kakao.sdk:v2-share:2.13.0" // 메시지(카카오톡 공유)
 }

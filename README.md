@@ -1,20 +1,17 @@
-KakaoTalk Cordova Plugin
-========================
+# KakaoTalk Cordova Plugin
 
 A plugman compatible Cordova plugin for the KakaoTalk(https://developers.kakao.com)
 
 Make sure you've registered your app with Kakao and to have an KAKAO_APP_KEY
 
-Cordova Install Note:
-========================
+# Cordova Install Note:
 
-__Android
+\_\_Android
 
 nothing to do ;-)
 But the Android app must register key hash(https://developers.kakao.com/docs/android#getting-started-launch-sample-app)
 
-
-__iOS
+\_\_iOS
 
 1. Install Kakao SDK (https://developers.kakao.com/docs/ios)
 2. Add following code to appDelegate
@@ -29,17 +26,15 @@ __iOS
     ...
     if ([KOSession isKakaoAccountLoginCallback:url]){return [KOSession handleOpenURL:url];}
     ...
-    
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{[KOSession handleDidBecomeActive];}
 ```
 
-cordova plugin add https://github.com/lihak/KakaoTalkCordovaPlugin --variable KAKAO_APP_KEY=%KAKAO_APP_KEY%
+cordova plugin add https://github.com/hogangnono/KakaoTalkCordovaPlugin --variable KAKAO_APP_KEY=%KAKAO_APP_KEY%
 
-
-How to use the plugin
-========================
+# How to use the plugin
 
 ### Usage
 
@@ -48,6 +43,7 @@ This plugin adds an object to the window. Right now, you can login, logout and c
 #### Login
 
 Login using the `.login` method:
+
 ```
 KakaoTalk.login(
     function (result) { // success
@@ -62,6 +58,7 @@ KakaoTalk.login(
 ```
 
 The login reponse object is defined as:
+
 ```
 {
   id: '<KakaoTalk User Id>',
@@ -73,6 +70,7 @@ The login reponse object is defined as:
 #### Logout
 
 Logout using the `.logout` method:
+
 ```
 Kakaotalk.logout(
 	function() {
@@ -110,6 +108,7 @@ window.handleOpenURL = function (url) {
 #### isAvailable
 
 isAvailable using the `.isAvailable` method:
+
 ```
 const result = await Kakaotalk.isAvailable()
 ```
