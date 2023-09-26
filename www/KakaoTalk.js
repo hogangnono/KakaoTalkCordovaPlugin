@@ -7,7 +7,7 @@ var KakaoTalk = {
     },
     /** 카카오 계정으로 로그인 시도 */
     loginWithAccount: function (successCallback, errorCallback) {
-        exec(successCallback, errorCallback, "KakaoTalk", "login", []);
+        exec(successCallback, errorCallback, "KakaoTalk", "loginWithAccount", []);
     },
     logout: function (successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'KakaoTalk', 'logout', []);
