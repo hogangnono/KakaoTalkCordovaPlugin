@@ -6,33 +6,9 @@ Make sure you've registered your app with Kakao and to have an KAKAO_APP_KEY
 
 # Cordova Install Note:
 
-\_\_Android
-
-nothing to do ;-)
-But the Android app must register key hash(https://developers.kakao.com/docs/android#getting-started-launch-sample-app)
-
-\_\_iOS
-
-1. Install Kakao SDK (https://developers.kakao.com/docs/ios)
-2. Add following code to appDelegate
-
-```
-#import <KakaoOpenSDK/KakaoOpenSDK.h>
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-                                       sourceApplication:(NSString *)sourceApplication
-                                              annotation:(id)annotation {
-
-    ...
-    if ([KOSession isKakaoAccountLoginCallback:url]){return [KOSession handleOpenURL:url];}
-    ...
-
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application{[KOSession handleDidBecomeActive];}
-```
-
 cordova plugin add https://github.com/hogangnono/KakaoTalkCordovaPlugin --variable KAKAO_APP_KEY=%KAKAO_APP_KEY%
+
+Android app must register key hash(https://developers.kakao.com/docs/android#getting-started-launch-sample-app)
 
 # How to use the plugin
 
@@ -42,7 +18,7 @@ This plugin adds an object to the window. Right now, you can login, logout and c
 
 #### Login
 
-Login using the `.login` method:
+Login with KakaoTalk(If not available, with Kakao account) using the `.login` method:
 
 ```
 KakaoTalk.login(
@@ -57,14 +33,21 @@ KakaoTalk.login(
 );
 ```
 
-The login reponse object is defined as:
+#### LoginWithAccount
+
+Login with Kakao account using the `.loginWithAccount` method:
 
 ```
-{
-  id: '<KakaoTalk User Id>',
-  nickname: '<KakaoTalk User Nickname>',
-  profile_image: '<KakaoTalk User ProfileImage>'
-}
+KakaoTalk.loginWithAccount(
+    function (result) { // success
+        console.log('Successful login!');
+		console.log(result);
+    },
+    function (message) { // error
+        console.log('Error logging in');
+		console.log(message);
+    }
+);
 ```
 
 #### Logout
