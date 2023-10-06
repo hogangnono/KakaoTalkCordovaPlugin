@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-   id="cordova-plugin-kakaotalk"
-   name="cordova-plugin-kakaotalk"
-   version="1.0.16-hogangnono">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-kakaotalk" name="cordova-plugin-kakaotalk" version="1.0.21-hogangnono">
 
     <name>KakaoTalk</name>
     <description>KakaoTalk Cordova Plugin</description>
 
-	<engines>
-		<engine name="cordova-android" version=">3.9.9" /><!-- Requires Gradle building -->
-	</engines>
+    <engines>
+        <engine name="cordova-android" version=">3.9.9" />
+        <!-- Requires Gradle building -->
+    </engines>
 
     <js-module name="KakaoTalk" src="www/KakaoTalk.js">
-    	<clobbers target="KakaoTalk" />
+        <clobbers target="KakaoTalk" />
     </js-module>
 
-	<preference name="KAKAO_APP_KEY" />
-	<platform name="android">
+    <preference name="KAKAO_APP_KEY" />
+    <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="KakaoTalk">
-                <param name="android-package" value="com.lihak.plugin.kakao.KakaoTalk" />
+                <param name="android-package" value="com.hogangnono.plugin.kakao.KakaoTalk" />
             </feature>
             <access origin="https://*.kakao.com" />
             <access origin="https://*.kakao.co.kr" />
             <access origin="https://*.kakaocdn.net" />
         </config-file>
 
-        <source-file src="src/android/kakao_strings.xml" target-dir="res/values" />
         <config-file target="res/values/kakao_strings.xml" parent="/*">
             <string name="kakao_app_key">$KAKAO_APP_KEY</string>
         </config-file>
@@ -39,30 +36,41 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="application">
-        	<activity android:name=".common.SampleLoginActivity"
-                  android:screenOrientation="portrait"
-                  android:launchMode="singleTop"/>
+            <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity" android:exported="true">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
 
-	        <activity android:name=".common.SampleSignupActivity"
-	                  android:screenOrientation="portrait"
-	                  android:launchMode="singleTop"/>
+                    <data android:host="oauth" android:scheme="kakao$KAKAO_APP_KEY" />
+                </intent-filter>
+            </activity>
 
-        	<meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key" />
+            <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key" />
         </config-file>
 
         <framework src="src/android/kakao.gradle" custom="true" type="gradleReference" />
-		<source-file src="src/android/KakaoTalk.java" target-dir="src/com/lihak/plugin/kakao" />
+        <source-file src="src/android/KakaoTalk.java" target-dir="src/com/hogangnono/plugin/kakao" />
     </platform>
 
     <platform name="ios">
+        <podspec>
+            <pods use-frameworks="true">
+                <pod name="KakaoSDKCommon" spec="2.17.0"/>
+                <pod name="KakaoSDKAuth" spec="2.17.0"/>
+                <pod name="KakaoSDKUser" spec="2.17.0"/>
+            </pods>
+        </podspec>
+
         <config-file target="config.xml" parent="/*">
+            <preference name="deployment-target" value="13.0" />
+            <preference name="SwiftVersion" value="5.0" />
             <feature name="KakaoTalk">
                 <param name="ios-package" value="KakaoTalk" />
             </feature>
         </config-file>
 
-        <source-file src="src/ios/KakaoTalk.m" />
-        <header-file src="src/ios/KakaoTalk.h" />
+        <source-file src="src/ios/KakaoTalk.swift" />
         <config-file target="*-Info.plist" parent="KAKAO_APP_KEY">
             <string>$KAKAO_APP_KEY</string>
         </config-file>
@@ -81,12 +89,11 @@
         </config-file>
 
         <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
-          <array>
-            <string>kakaokompassauth</string>
-            <string>kakaolink</string>
-            <string>kakaotalk-5.9.7</string>
-          </array>
+            <array>
+                <string>kakaokompassauth</string>
+                <string>kakaolink</string>
+                <string>kakaotalk-5.9.7</string>
+            </array>
         </config-file>
-	<framework src="src/ios/KakaoOpenSDK.framework" embed="false" custom="true" />
     </platform>
 </plugin>
