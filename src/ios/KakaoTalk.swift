@@ -9,6 +9,8 @@ class KakaoTalk: CDVPlugin {
         if let infoDict = Bundle.main.infoDictionary,
            let kakaoAppKey = infoDict["KAKAO_APP_KEY"] as? String {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(self.applicationLaunchedWithUrl(notification:)), name: .CDVPluginHandleOpenURL, object: nil)
         }
     }
 
@@ -55,30 +57,22 @@ class KakaoTalk: CDVPlugin {
             self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
         }
     }
-    
-    @objc(loginCallback:)
-    func loginCallback(command: CDVInvokedUrlCommand) {        
-        guard let urlString = command.arguments[0] as? String,
-              let url = URL(string: urlString) else {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "Invalid url"), callbackId: command.callbackId)
-            return
-        }
-        
-        guard AuthApi.isKakaoTalkLoginUrl(url) else {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "isKakaoTalkLoginUrl fail"), callbackId: command.callbackId)
-            return
-        }
-        
-        guard AuthController.handleOpenUrl(url: url) else {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "handleOpenUrl fail"), callbackId: command.callbackId)
-            return
-        }
-        
-        self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
-    }
 
     @objc(isAvailable:)
     func isAvailable(command: CDVInvokedUrlCommand) {
         self.commandDelegate.send(CDVPluginResult(status: .ok, messageAs: UserApi.isKakaoTalkLoginAvailable() ? "success" : "fail"), callbackId: command.callbackId)
+    }
+    
+    @objc(applicationLaunchedWithUrl:)
+    func applicationLaunchedWithUrl(notification: Notification) {
+        guard let url = notification.object as? URL else {
+            return
+        }
+        
+        guard AuthApi.isKakaoTalkLoginUrl(url) else {
+            return
+        }
+        
+        _ = AuthController.handleOpenUrl(url: url)
     }
 }
